@@ -3,6 +3,39 @@
     <link rel="stylesheet" href="/static/css/styles.css" type="text/css">
   </head>
   <body>
-    The best place to start is the "WelcomeController.py" file in app/controllers.
+    {% with messages = get_flashed_messages() %}
+      {% if messages %}
+        <ul class=flashes>
+        {% for message in messages %}
+          <li>{{ message }}</li>
+        {% endfor %}
+        </ul>
+      {% endif %}
+    {% endwith %}
+    <h1>Add a new course</h1>
+    <form action="courses/add" method="post">
+      <p>Name: <input type="text" name="courseName"></p>
+      <p>Description: <input type="textarea" name="courseDescription"></p>
+      <p><input type="submit" value="Submit">
+    </form>
+
+    <hr>
+    <h1>Courses</h1>
+    <table>
+      <thead>
+        <th>Course Name</th>
+        <th>Description</th>
+        <th>Date Added</th>
+        <th>Actions</th>
+      </thead>
+      {% for course in allCourses %}
+        <tr>
+          <td>{{course['course_name']}}</td>
+          <td>{{course['course_description']}}</td>
+          <td>{{course['date_added']}}</td>
+          <td><a href="courses/destroy_confirm/{{course['id']}}">remove</a></td>
+        </tr>
+      {% endfor %}
+    </table>
   </body>
 </html>
